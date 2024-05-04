@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: wonjs-ch02-example
+spec:
+  containers:
+  - name: wonjs-ch02-example
+    image: kiamol/ch02-hello-kiamol
