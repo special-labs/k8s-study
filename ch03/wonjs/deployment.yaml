@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: super-mario
+spec:
+  selector:
+    matchLabels:
+      app: super-mario
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: super-mario
+        version: v1
+    spec:
+      containers:
+        - name: super-mario
+          image: pengbai/docker-supermario
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: game-2048
+spec:
+  selector:
+    matchLabels:
+      app: game-2048
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: game-2048
+        version: v1
+    spec:
+      containers:
+        - name: game-2048
+          image: alexwhen/docker-2048
