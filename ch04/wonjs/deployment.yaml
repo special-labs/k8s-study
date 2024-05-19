@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: adminer-web
+spec:
+  ports:
+    - port: 8082
+      targetPort: 8080
+  selector:
+    app: adminer-web
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adminer-web
+spec:
+  selector:
+    matchLabels:
+      app: adminer-web
+  template:
+    metadata:
+      labels:
+        app: adminer-web
+    spec:
+      containers:
+        - name: web
+          image: adminer:4.7-standalone
+          args: ["php", "-S", "0.0.0.0:8080", "-t", "/var/www/html"]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:v8.0.22
+          env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-secret
+                key: MYSQL_ROOT_PASSWORD
+          - name: MYSQL_DATABASE
+            valueFrom:
+              configMapKeyRef:
+                name: mysql-info
+                key: MYSQL_DATABASE
