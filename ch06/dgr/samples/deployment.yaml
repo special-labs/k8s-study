@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: numbers-web
+  labels:
+    study: ch06-dgr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      lab: dgr-lab
+  template:
+    metadata:
+      labels:
+        lab: dgr-lab
+    spec:
+      containers:
+        - name: web
+          image: kiamol/ch03-numbers-web
