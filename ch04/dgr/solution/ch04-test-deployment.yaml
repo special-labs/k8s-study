@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: ch04-practice
+spec:
+  selector:
+    matchLabels:
+      app: ch04-practice
+  template:
+    metadata:
+     labels:
+      app: ch04-practice
+    spec:
+      containers:
+        - name: ch04-practice
+          image: busybox
+          command: ['sh', '-c', 'while true; do echo The app color is $APP_NAME and version is $APP_VERSION; sleep 2; done']
+          env:
+            - name: APP_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: ch04-configmap
+                  key: APP_NAME
+            - name: APP_VERSION
+              valueFrom:
+                configMapKeyRef:
+                  name: ch04-configmap
+                  key: APP_VERSION

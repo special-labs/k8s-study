@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ch04-practice
+spec:
+  selector:
+    matchLabels:
+      app: ch04-practice
+  template:
+    metadata:
+      labels:
+        app: ch04-practice
+    spec:
+      containers:
+        - name: ch04-practice
+          image: busybox
+          command: ['sh', '-c', 'while true; do echo The app name is $(cat /app/config/app-name) and version is $(cat /app/config/app-version); sleep 2; done']
+          volumeMounts:
+            - name: config
+              mountPath: "/app/config"
+              readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: ch04-configmap
+            items:
+              - key: APP_NAME
+                path: app-name
+              - key: APP_VERSION
+                path: app-version
