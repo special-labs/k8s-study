@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: proxy
+  labels:
+    study: ch06-wonjs
+spec:
+  selector:
+    matchLabels:
+      app: proxy
+  template:
+    metadata:
+      labels:
+        app: proxy
+    spec:
+      containers:
+        - image: nginx:1.17-alpine
+          name: nginx
+          ports:
+            - containerPort: 80
+              name: http
+      nodeSelector:
+        study: nginx
